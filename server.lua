@@ -15,10 +15,10 @@ AddEventHandler('bank:fastdep', function(base)
     base = xPlayer.getMoney()
     
     if base == nil or base <= 0 then
-        TriggerClientEvent('rp_notify:client:SendAlert',  _source, { type = 'error', text = 'Üstünde nakit para yok!'})
+        TriggerClientEvent('mythic_notify:client:SendAlert',  _source, { type = 'error', text = 'Üstünde nakit para yok!'})
     else
 
-    TriggerClientEvent('rp_notify:client:SendAlert',  _source, { type = 'inform', text = 'Banka\'ya $100 dolar yatırdın.'})
+    TriggerClientEvent('mythic_notify:client:SendAlert',  _source, { type = 'inform', text = 'Banka\'ya $100 dolar yatırdın.'})
     xPlayer.addAccountMoney('bank', 100)
     xPlayer.removeMoney(100)
     end
@@ -34,10 +34,10 @@ AddEventHandler('bank:fastw', function(base)
     base = xPlayer.getAccount('bank').money
     
     if base == nil or base <= 0 then
-        TriggerClientEvent('rp_notify:client:SendAlert',  _source, { type = 'error', text = 'Bankada para yok!'})
+        TriggerClientEvent('mythic_notify:client:SendAlert',  _source, { type = 'error', text = 'Bankada para yok!'})
     else
 
-    TriggerClientEvent('rp_notify:client:SendAlert',  _source, { type = 'inform', text = 'Hesabından $100 dolar çektin.'})   
+    TriggerClientEvent('mythic_notify:client:SendAlert',  _source, { type = 'inform', text = 'Hesabından $100 dolar çektin.'})   
     xPlayer.addMoney(100)
     xPlayer.removeAccountMoney('bank', 100) 
     end
@@ -51,10 +51,10 @@ AddEventHandler('bank:fastwt', function(base)
     base = xPlayer.getAccount('bank').money
     
     if base == nil or base <= 0 then
-        TriggerClientEvent('rp_notify:client:SendAlert',  _source, { type = 'error', text = 'Bankada para yok!'})
+        TriggerClientEvent('mythic_notify:client:SendAlert',  _source, { type = 'error', text = 'Bankada para yok!'})
     else
     
-    TriggerClientEvent('rp_notify:client:SendAlert',  _source, { type = 'inform', text = 'Hesabına $200 dolar yatırdın.'})    
+    TriggerClientEvent('mythic_notify:client:SendAlert',  _source, { type = 'inform', text = 'Hesabına $200 dolar yatırdın.'})    
     xPlayer.addMoney(200)
     xPlayer.removeAccountMoney('bank', 200) 
     end
@@ -72,7 +72,7 @@ AddEventHandler('bank:deposit', function(amount)
 
     local xPlayer = ESX.GetPlayerFromId(_source)
     if amount == nil or amount <= 0 then
-        TriggerClientEvent('rp_notify:client:SendAlert', _source, { type = 'error', text = 'Geçersiz miktar!'})
+        TriggerClientEvent('mythic_notify:client:SendAlert', _source, { type = 'error', text = 'Geçersiz miktar!'})
     else
         if amount > xPlayer.getMoney() then
             amount = xPlayer.getMoney()
@@ -90,7 +90,7 @@ AddEventHandler('bank:withdraw', function(amount)
     amount = tonumber(amount)
     base = xPlayer.getAccount('bank').money
     if amount == nil or amount <= 0 then
-        TriggerClientEvent('rp_notify:client:SendAlert',  _source, { type = 'error', text = 'Geçersiz miktar!'})
+        TriggerClientEvent('mythic_notify:client:SendAlert',  _source, { type = 'error', text = 'Geçersiz miktar!'})
     else
         if amount > base then
             amount = base
@@ -123,17 +123,17 @@ AddEventHandler('bank:transfer', function(to, amountt)
         zbalance = zPlayer.getAccount('bank').money
 
         if tonumber(_source) == tonumber(to) then
-            TriggerClientEvent('rp_notify:client:SendAlert',  _source, { type = 'error', text = 'Kendine para transfer edemezsin!'})
+            TriggerClientEvent('mythic_notify:client:SendAlert',  _source, { type = 'error', text = 'Kendine para transfer edemezsin!'})
         else
             if balance <= 0 or balance < tonumber(amountt) or tonumber(amountt) <= 0 then
-                    TriggerClientEvent('rp_notify:client:SendAlert',  _source, { type = 'error', text = 'Transfer edecek paran yok!'})
+                    TriggerClientEvent('mythic_notify:client:SendAlert',  _source, { type = 'error', text = 'Transfer edecek paran yok!'})
             else
                 xPlayer.removeAccountMoney('bank', tonumber(amountt))
                 zPlayer.addAccountMoney('bank', tonumber(amountt))
 
-                TriggerClientEvent('rp_notify:client:SendAlert',  _source, { type = 'error', text = 'Transferi gerçekleştirdin!'})
+                TriggerClientEvent('mythic_notify:client:SendAlert',  _source, { type = 'error', text = 'Transferi gerçekleştirdin!'})
 
-                TriggerClientEvent('rp_notify:client:SendAlert',  to, { type = 'inform', text = 'Size para transferi gerçekleştirildi!'})
+                TriggerClientEvent('mythic_notify:client:SendAlert',  to, { type = 'inform', text = 'Size para transferi gerçekleştirildi!'})
 
             end
 
