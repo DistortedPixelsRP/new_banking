@@ -25,14 +25,13 @@ end)
 --==             Core Threading                ==
 --===============================================
 
-
--- Banka içindeyken "E" tuşuna basılarak menü açılır.
 --[[
+-- Banka içindeyken "E" tuşuna basılarak menü açılır.
 if bankMenu then
 	Citizen.CreateThread(function()
 		while true do
 			Wait(0)
-			if nearBank() then
+			if nearBank() or nearATM() then
 				if IsControlJustPressed(1, 38) then
 					openUI()
 					TriggerServerEvent('bank:balance')
@@ -48,26 +47,10 @@ end
 --]]
 
 
--- Banka içindeyken "/bank" komutu yazılarak menü açılır.
+-- Banka içindeyken ve atm yakınındayken "/bank" komutu yazılarak menü açılır.
 RegisterCommand('bank', function()
 	if bankMenu then
-		if nearBank() then
-			Citizen.Wait(5)
-				openUI()
-				TriggerServerEvent('bank:balance')
-				local ped = GetPlayerPed(-1)
-			end
-		end
-		if IsControlJustPressed(1, 194) then
-			closeUI()			
-		end		
-end)
-
-
--- ATM yakınındayken "/atm" komutu yazılarak menü açılır.
-RegisterCommand('atm', function()
-	if bankMenu then
-		if nearATM() then
+		if nearBank() or nearATM() then
 			Citizen.Wait(5)
 				openUI()
 				TriggerServerEvent('bank:balance')
@@ -284,6 +267,7 @@ function nearBank()
 
 	for _, search in pairs(Config.Bank) do
 		local distance = GetDistanceBetweenCoords(search.x, search.y, search.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
+		
 
 		if distance <= 3 then
 			return true
@@ -303,6 +287,7 @@ function nearATM()
 		end
 	end
 end
+
 --===============================================
 --==            Animations          ==
 --===============================================
@@ -311,7 +296,8 @@ function closeUI()
 	SetNuiFocus(false, false)
 	if Config.Animation then 
 		playAnim('amb@prop_human_atm@male@exit', 'exit', Config.AnimationTime)
-		Citizen.Wait(Config.AnimationTime)
+		exports["np_taskbar"]:taskBar(Config.AnimationTime,"Kart çıkarılıyor..")
+		--Citizen.Wait(Config.AnimationTime)
 	end
 	SendNUIMessage({type = 'closeAll'})
 end
@@ -319,7 +305,8 @@ end
 function openUI()
 	if Config.Animation then 
 		playAnim('amb@prop_human_atm@male@enter', 'enter', Config.AnimationTime)
-		Citizen.Wait(Config.AnimationTime)
+		exports["np_taskbar"]:taskBar(Config.AnimationTime,"Kart takılıyor..")
+		--Citizen.Wait(Config.AnimationTime)
 	end
 	inMenu = true
 	SetNuiFocus(true, true)
